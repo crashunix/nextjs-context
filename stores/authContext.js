@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { authService } from '../services/auth.service';
 
 const AuthContext = createContext({
@@ -13,6 +13,7 @@ export const AuthContextProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const localUser = JSON.parse(localStorage.getItem('user'));
@@ -23,12 +24,15 @@ export const AuthContextProvider = ({ children }) => {
     }, [])
 
     const login = (credentials) => {
+        setIsLoading(true);
         authService.login(credentials).then(usr => {
             console.log(usr);
             setUser(usr);
             setIsLoggedIn(true);
             localStorage.setItem('user', JSON.stringify(usr));
             Router.push('/');
+        }).finally(() => {
+            setIsLoading(false);
         });
     }
 
@@ -38,7 +42,7 @@ export const AuthContextProvider = ({ children }) => {
         localStorage.removeItem('user');
     }
 
-    const context = { user, logout, login, isLoggedIn }
+    const context = { user, logout, login, isLoggedIn, isLoading }
 
     return (
         <AuthContext.Provider value={context}>
