@@ -32,9 +32,9 @@ export const ToastContextProvider = ({ children }) => {
     return (
         <ToastContext.Provider value={context}>
             { children }
-            <div className="fixed top-0 left-0 flex flex-col w-48 space-y-2 pt-2 pl-2">
+            <div className="fixed top-0 left-0 flex flex-col w-48 space-y-2 pt-2 pl-2 pointer-events-none">
                 { toasts.map((toast, index) => (
-                    <div key={index} className="bg-red-400 text-white px-4 py-3 rounded-md animate-fade-in-out">
+                    <div key={index} className="bg-red-400 text-white px-4 py-3 rounded-md animate-fade-in-out pointer-events-auto">
                         <span>{ toast }</span>
                     </div>
                 )) }
