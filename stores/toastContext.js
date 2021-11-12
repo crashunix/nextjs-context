@@ -5,7 +5,6 @@ import Toast from '../components/toast'
 const ToastContext = createContext({
     toasts: [],
     addToast: () => { },
-    removeToast: () => { },
 })
 
 export const ToastContextProvider = ({ children }) => {
@@ -18,7 +17,7 @@ export const ToastContextProvider = ({ children }) => {
                 () => {
                     setToasts(toasts => toasts.slice(1));
                 },
-                3000
+                3500
             );
             console.log(toasts);
             return () => clearTimeout(timer);
@@ -26,23 +25,18 @@ export const ToastContextProvider = ({ children }) => {
     }, [toasts])
 
     const addToast = useCallback(
-        (type, message) => {
-            var id = toasts.length;
-            setToasts(toasts => [...toasts, { id, type, message, isVisible: true }]);
+        (type, title, message) => {
+            setToasts(toasts => [...toasts, { type, title, message }]);
         },
         [setToasts],
     );
 
-    const removeToast = () => {
-        setToasts(toasts => toasts.slice(1));
-    }
-
-    const context = { toasts, addToast, removeToast };
+    const context = { toasts, addToast };
 
     return (
         <ToastContext.Provider value={context}>
             {children}
-            <div className="absolute top-0 left-0 flex pt-2 pl-2 space-y-2 flex-col w-48 pointer-events-none">
+            <div className="absolute top-0 left-0 flex pt-2 pl-2 space-y-2 flex-col pointer-events-none">
                 {toasts.map((toast, index) => (
                     <Toast key={index} index={index} toast={toast}></Toast>
                 ))}

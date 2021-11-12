@@ -4,14 +4,14 @@ import { ToastContextProvider } from '../stores/toastContext';
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
-  return(
-    <AuthContextProvider>
-      <ThemeContextProvider>
-        <ToastContextProvider>
+  return (
+    <ToastContextProvider>
+      <AuthContextProvider>
+        <ThemeContextProvider>
           <Component {...pageProps} />
-        </ToastContextProvider>
-      </ThemeContextProvider> 
-    </AuthContextProvider>
+        </ThemeContextProvider>
+      </AuthContextProvider>
+    </ToastContextProvider>
   );
 }
 

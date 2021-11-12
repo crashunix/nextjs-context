@@ -1,6 +1,7 @@
 import Router from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react'
 import { authService } from '../services/auth.service';
+import ToastContext from './toastContext';
 
 const AuthContext = createContext({
     user: null,
@@ -14,6 +15,8 @@ export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    const { addToast } = useContext(ToastContext);
 
     useEffect(() => {
         const localUser = JSON.parse(localStorage.getItem('user'));
@@ -31,9 +34,12 @@ export const AuthContextProvider = ({ children }) => {
             setIsLoggedIn(true);
             localStorage.setItem('user', JSON.stringify(usr));
             Router.push('/');
+        }).catch(error => {
+            console.log(error, 'aaaaaaaaaaaaaa');
+            addToast('error', 'Erro', 'Usuário não encontrado');
         }).finally(() => {
             setIsLoading(false);
-        });
+        })
     }
 
     const logout = () => {
