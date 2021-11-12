@@ -7,9 +7,11 @@ module.exports = {
         'fade-in-out': {
           '0%': {
             opacity: '0',
+            translateX: '-100%'
           },
           '25%': {
             opacity: '1',
+            translateX: '0'
           },
           '75%': {
             opacity: '1',
@@ -20,7 +22,7 @@ module.exports = {
         }
       },
       animation: {
-        'fade-in-out': 'fade-in-out 3s linear'
+        'fade-in-out': 'fade-in-out 3.1s linear'
       }
     },
   },
