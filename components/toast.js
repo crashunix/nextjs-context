@@ -26,7 +26,6 @@ const Toast = (props) => {
                         transitionEnd: {
                             display: "none"
                         },
-                        
                     }}
                     drag="x"
                     dragDirectionLock

@@ -29,13 +29,11 @@ export const AuthContextProvider = ({ children }) => {
     const login = (credentials) => {
         setIsLoading(true);
         authService.login(credentials).then(usr => {
-            console.log(usr);
             setUser(usr);
             setIsLoggedIn(true);
             localStorage.setItem('user', JSON.stringify(usr));
             Router.push('/');
         }).catch(error => {
-            console.log(error, 'aaaaaaaaaaaaaa');
             addToast('error', 'Erro', 'Usuário não encontrado');
         }).finally(() => {
             setIsLoading(false);
