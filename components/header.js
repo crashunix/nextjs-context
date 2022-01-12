@@ -6,17 +6,19 @@ import ThemeButton from "./themeButton";
 
 const Header = () => {
 
-    const { isLoggedIn } = useContext(AuthContext);
+    const { isAuthenticated, user, signout } = useContext(AuthContext);
 
     return(
         <header className="bg-white dark:bg-gray-900 transition-colors flex">
-            <div className="h-20 w-20 bg-blue-500 flex items-center justify-center font-bold text-4xl text-white">B</div>
             <div className="mx-auto h-20 flex items-center justify-between flex-1 px-4">
                 <h1 className="font-bold text-lg dark:text-white">🔍</h1>
                 <div className="flex items-center space-x-4">
                     <ThemeButton />
-                    { isLoggedIn ? 
-                        <LogoutButton></LogoutButton> 
+                    { isAuthenticated ? 
+                        <div className="flex items-center space-x-2">
+                            <span className="cursor-pointer text-gray-600" onClick={() => signout()}>Sair</span>
+                            <img className="w-10 h-10 rounded-full object-cover" src={user?.avatar} alt={user?.name} />
+                        </div>
                         :
                         <Link href="/login">
                             <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full cursor-pointer">Login</div> 

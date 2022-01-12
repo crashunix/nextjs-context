@@ -1,0 +1,4 @@
+.default__content {
+    @apply flex-1 flex bg-red-200 overflow-y-auto;
+    max-height: calc(100% - 80px);
+}

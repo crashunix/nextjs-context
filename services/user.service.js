@@ -1,6 +1,6 @@
 import { fetchWrapper } from 'helpers';
 
-const baseUrl = `https://reqres.in/api`;
+const baseUrl = `http://localhost:4000`;
 
 const getAll = () => {
     return fetchWrapper.get(baseUrl);

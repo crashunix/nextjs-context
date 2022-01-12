@@ -1,52 +1,60 @@
-import Router from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react'
+import Router from 'next/router';
+import { setCookie, parseCookies } from 'nookies';
+
 import { authService } from '../services/auth.service';
 import ToastContext from './toastContext';
+import { api } from '../services/api';
 
 const AuthContext = createContext({
     user: null,
-    login: () => {},
-    logout: () => {},
-    isLoggedIn: false
-})
+    isAuthenticated: false,
+    signin: ({ username, password}) => {},
+    signout: () => {},
+});
 
 export const AuthContextProvider = ({ children }) => {
 
-    const [user, setUser] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [user, setUser] = useState();
+
+    const isAuthenticated = !!user;
 
     const { addToast } = useContext(ToastContext);
 
     useEffect(() => {
-        const localUser = JSON.parse(localStorage.getItem('user'));
-        if (localUser) {
-            setUser(JSON.parse(user))
-            setIsLoggedIn(true)
+        const { 'pb.token': token } = parseCookies();
+        if(token) {
+            authService.me().then((res) => {
+                const { user } = res.data;
+                setUser(user);
+            });
         }
-    }, [])
+    }, []);
 
-    const login = (credentials) => {
-        setIsLoading(true);
-        authService.login(credentials).then(usr => {
-            setUser(usr);
-            setIsLoggedIn(true);
-            localStorage.setItem('user', JSON.stringify(usr));
+    const signin = async ({ username, password }) => {
+        await authService.signin({ username, password }).then((res) => {
+            const { token, user } = res.data;
+            console.log("context login", user, token);
+            setCookie(undefined, 'pb.token', token, {
+                maxAge: 30 * 24 * 60 * 60 // 30 dias
+            });
+            api.defaults.headers['Authorization'] = `Bearer ${token}`;
+            setUser(user);
             Router.push('/');
-        }).catch(error => {
-            addToast('error', 'Erro', 'Usuário não encontrado');
-        }).finally(() => {
-            setIsLoading(false);
-        })
+        }).catch(err => {
+            addToast('error', 'Erro', "Erro ao logar");
+        });
     }
 
-    const logout = () => {
+    const signout = () => {
         setUser(null);
-        setIsLoggedIn(false);
-        localStorage.removeItem('user');
+        setCookie(undefined, 'pb.token', '', {
+            maxAge: -1,
+        });
+        Router.push('/login');
     }
 
-    const context = { user, logout, login, isLoggedIn, isLoading }
+    const context = { signin, user, isAuthenticated, signout }
 
     return (
         <AuthContext.Provider value={context}>
