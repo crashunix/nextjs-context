@@ -1,3 +1,4 @@
+import { parseCookies } from "nookies";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import ThemeButton from "../../components/themeButton";
@@ -41,5 +42,23 @@ const Login = () => {
         </div>
     );
 }
+
+export const getServerSideProps = async (ctx) => {
+    // const apiClient = getApiClient(ctx);
+    const { ['pb.token']: token } = parseCookies(ctx);
+    if(token) {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false
+        }
+      }
+    }
+    return {
+      props: {
+      }
+    }
+  }
+  
 
 export default Login;

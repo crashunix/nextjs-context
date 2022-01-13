@@ -1,3 +1,3 @@
 import { getApiClient } from "./axios";
 
-const api = getApiClient();
+export const api = getApiClient();

@@ -25,8 +25,8 @@ export const AuthContextProvider = ({ children }) => {
         const { 'pb.token': token } = parseCookies();
         if(token) {
             authService.me().then((res) => {
-                const { user } = res.data;
-                setUser(user);
+                console.log();
+                setUser(res.data);
             });
         }
     }, []);
