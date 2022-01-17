@@ -5,14 +5,14 @@ import ModalContext from "../stores/modalContext";
 const LogoutButton = () => {
 
     const { showModal, hideModal } = useContext(ModalContext);
-    const { logout } = useContext(AuthContext);
+    const { signout } = useContext(AuthContext);
 
     const logoutModal = () => {
         showModal({
             title: "Logout",
             description: "Deseja desconectar?",
             onClickConfirm: () => {
-                logout();
+                signout();
                 hideModal();
             }
         });

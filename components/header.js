@@ -16,6 +16,7 @@ const Header = () => {
                     <ThemeButton />
                     { isAuthenticated ? 
                         <div className="flex items-center space-x-2">
+                            <LogoutButton></LogoutButton>
                             <span className="text-gray-600">Olá, {user.name.split(" ")[0]}</span>
                             <img className="w-10 h-10 rounded-full object-cover" src={user?.avatar} alt={user?.name} />
                         </div>
