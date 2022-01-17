@@ -16,13 +16,14 @@ const Header = () => {
                     <ThemeButton />
                     { isAuthenticated ? 
                         <div className="flex items-center space-x-2">
-                            <span className="cursor-pointer text-gray-600" onClick={() => signout()}>Sair</span>
+                            <span className="text-gray-600">Olá, {user.name.split(" ")[0]}</span>
                             <img className="w-10 h-10 rounded-full object-cover" src={user?.avatar} alt={user?.name} />
                         </div>
                         :
-                        <Link href="/login">
-                            <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full cursor-pointer">Login</div> 
-                        </Link>
+                        <div className="flex items-center space-x-2">
+                            <div className="bg-gray-200 w-24 h-4 animate-pulse"></div>
+                            <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse"></div>
+                        </div>
                     }
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import { fetchWrapper } from 'helpers';
 
-const baseUrl = `http://localhost:4000`;
+const baseUrl = ``;
 
 const getAll = () => {
     return fetchWrapper.get(baseUrl);

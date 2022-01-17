@@ -1,9 +1,8 @@
 // import { fetchWrapper } from "../helpers/fetch-wrapper";
 
 import { api } from "./api";
-import { getApiClient } from "./axios";
 
-const baseUrl = `http://localhost:4000`;
+const baseUrl = ``;
 
 const create = ({ title, content }) => {
     return api.post(`${baseUrl}/pages`, { title, content });

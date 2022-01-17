@@ -2,11 +2,16 @@
 
 import { api } from "./api";
 
-const baseUrl = `http://localhost:4000/auth`;
+const baseUrl = `/auth`;
 
 const signin = ({ username, password }) => {
     console.log('signin');
     return api.post(`${baseUrl}/signin`, { username, password });
+}
+
+const refreshToken = (refreshToken) => {
+    console.log('refresh-token');
+    return api.post(`${baseUrl}/refresh-token`, { refreshToken });
 }
 
 const me = () => {
@@ -20,5 +25,6 @@ const create = (credentials) => {
 export const authService = {
     signin,
     me,
-    create
+    create,
+    refreshToken
 };

@@ -5,6 +5,7 @@ import { setCookie, parseCookies } from 'nookies';
 import { authService } from '../services/auth.service';
 import ToastContext from './toastContext';
 import { api } from '../services/api';
+import { isTokenExpired } from '../util/auth';
 
 const AuthContext = createContext({
     user: null,
@@ -27,20 +28,27 @@ export const AuthContextProvider = ({ children }) => {
             authService.me().then((res) => {
                 console.log();
                 setUser(res.data);
+            }).catch(err => {
+                console.log("Erro ao logar", token);
             });
         }
     }, []);
 
     const signin = async ({ username, password }) => {
         await authService.signin({ username, password }).then((res) => {
-            const { token, user } = res.data;
+            const { token, user, refreshToken } = res.data;
             console.log("context login", user, token);
             setCookie(undefined, 'pb.token', token, {
-                maxAge: 30 * 24 * 60 * 60 // 30 dias
+                maxAge: 30 * 24 * 60 * 60, // 30 dias
+                path: '/'
+            });
+            setCookie(undefined, 'pb.refresh-token', refreshToken.id, {
+                maxAge: 30 * 24 * 60 * 60, // 30 dias
+                path: '/'
             });
             api.defaults.headers['Authorization'] = `Bearer ${token}`;
             setUser(user);
-            Router.push('/');
+            Router.push('/portal');
         }).catch(err => {
             addToast('error', 'Erro', "Erro ao logar");
         });
@@ -51,7 +59,10 @@ export const AuthContextProvider = ({ children }) => {
         setCookie(undefined, 'pb.token', '', {
             maxAge: -1,
         });
-        Router.push('/login');
+        setCookie(undefined, 'pb.refresh-token', '', {
+            maxAge: -1,
+        });
+        Router.push('/');
     }
 
     const context = { signin, user, isAuthenticated, signout }

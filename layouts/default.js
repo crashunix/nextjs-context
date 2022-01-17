@@ -14,17 +14,17 @@ const DefaultLayout = ({children}) => {
                 <div className="w-20 bg-white dark:bg-gray-900 flex flex-col shadow-sm">
                     <div className="flex-1 flex flex-col">
                         <div className="h-20 w-20 bg-blue-500 flex items-center justify-center font-bold text-4xl text-white">B</div>
-                        <Link href="/">
+                        <Link href="/portal">
                             <div className="w-full h-20 flex justify-center items-center cursor-pointer hover:bg-gray-100 transition-colors">
                                 🏠
                             </div>
                         </Link>
-                        <Link href="/users">
+                        <Link href="/portal/users">
                             <div className="w-full h-20 flex justify-center items-center cursor-pointer hover:bg-gray-100 transition-colors">
                                 🤵
                             </div>
                         </Link>
-                        <Link href="/config">
+                        <Link href="/portal/config">
                             <div className="w-full h-20 flex justify-center items-center cursor-pointer hover:bg-gray-100 transition-colors">
                                 ⚙
                             </div>
