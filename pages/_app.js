@@ -5,6 +5,7 @@ import { ModalContextProvider } from '../stores/modalContext';
 import { NavBarContextProvider } from '../stores/navbarContext';
 import { ThemeContextProvider } from '../stores/themeContext'
 import { ToastContextProvider } from '../stores/toastContext';
+import "@material-tailwind/react/tailwind.css";
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {

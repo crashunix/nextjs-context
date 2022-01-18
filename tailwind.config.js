@@ -3,6 +3,15 @@ module.exports = {
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
+      colors: {
+        bl: {
+          'dark-blue': '#00315F',
+          'light-blue': '#009CD0'
+        }
+      },
+      zIndex: {
+        "-1": "-1",
+      },
       keyframes: {
         'fade-in-out': {
           '0%': {
@@ -27,7 +36,10 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ['group-focus']
+    },
+    borderColor: ['responsive', 'hover', 'focus', 'focus-within'],
   },
   plugins: [],
 }

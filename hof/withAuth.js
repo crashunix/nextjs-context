@@ -21,11 +21,17 @@ export default function withAuth(func) {
                     api.defaults.headers['Authorization'] = `Bearer ${token}`;
                 }).catch(err => {
                     console.log(err);
+                    return {
+                        redirect: {
+                            destination: '/signin',
+                            permanent: false
+                        }
+                    }
                 });
             } else {
                 return {
                     redirect: {
-                        destination: '/',
+                        destination: '/signin',
                         permanent: false
                     }
                 }
