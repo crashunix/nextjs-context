@@ -4,12 +4,12 @@ import { useForm, Controller } from "react-hook-form";
 import { useContext, useState } from "react";
 import AuthContext from "../../stores/authContext";
 import { isTokenExpired } from "../../util/auth";
-import EmptyLayout from "../../layouts/empty";
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, IconButton, Input, InputAdornment, InputLabel, TextField } from "@material-ui/core";
 import { Visibility, VisibilityOff, Language } from "@mui/icons-material";
 import Image from 'next/image';
-import AlertIcon from '../../public/icons/alert.svg';
-import ChevronLeft from '../../public/icons/chevron-left.svg';
+import AlertIcon from '../../../public/icons/alert.svg';
+import ChevronLeft from '../../../public/icons/chevron-left.svg';
+import EmptyLayout from "../../layouts/empty";
 
 const HelperText = ({ ...props }) => {
   return <div className="w-full mt-2 flex items-center justify-center text-bl-dark-blue font-bold">{props.icon}<span className="ml-1 text-sm">{props.text}</span></div>;
