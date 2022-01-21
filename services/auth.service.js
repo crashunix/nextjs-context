@@ -4,9 +4,9 @@ import { api } from "./api";
 
 const baseUrl = `/auth`;
 
-const signin = ({ username, password }) => {
+const signin = ({ email, password }) => {
     console.log('signin');
-    return api.post(`${baseUrl}/signin`, { username, password });
+    return api.post(`${baseUrl}/signin`, { email, password });
 }
 
 const refreshToken = (refreshToken) => {

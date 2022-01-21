@@ -10,13 +10,18 @@ import { isTokenExpired } from '../util/auth';
 const AuthContext = createContext({
     user: null,
     isAuthenticated: false,
-    signin: ({ username, password}) => {},
+    signin: ({ email, password}) => {},
     signout: () => {},
+    loading: false,
+    error: ''
 });
 
 export const AuthContextProvider = ({ children }) => {
 
     const [user, setUser] = useState();
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const isAuthenticated = !!user;
 
@@ -34,8 +39,9 @@ export const AuthContextProvider = ({ children }) => {
         }
     }, []);
 
-    const signin = async ({ username, password }) => {
-        await authService.signin({ username, password }).then((res) => {
+    const signin = async ({ email, password }) => {
+        setLoading(true);
+        await authService.signin({ email, password }).then((res) => {
             const { token, user, refreshToken } = res.data;
             console.log("context login", user, token);
             setCookie(undefined, 'pb.token', token, {
@@ -48,9 +54,13 @@ export const AuthContextProvider = ({ children }) => {
             });
             api.defaults.headers['Authorization'] = `Bearer ${token}`;
             setUser(user);
+            setError('');
             Router.push('/portal');
         }).catch(err => {
             addToast('error', 'Erro', "Erro ao logar");
+            setError(err.response.data.message);
+        }).finally(() => {
+            setLoading(false);
         });
     }
 
@@ -62,10 +72,10 @@ export const AuthContextProvider = ({ children }) => {
         setCookie(undefined, 'pb.refresh-token', '', {
             maxAge: -1,
         });
-        Router.push('/');
+        Router.push('/signin');
     }
 
-    const context = { signin, user, isAuthenticated, signout }
+    const context = { signin, user, isAuthenticated, signout, loading, error }
 
     return (
         <AuthContext.Provider value={context}>
