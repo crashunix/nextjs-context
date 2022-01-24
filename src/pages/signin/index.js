@@ -53,7 +53,7 @@ export default function Home({ ...props }) {
         </a>
         <div className="px-4 container mx-auto h-screen max-w-5xl">
           <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-            <div className="flex flex-col justify-center pt-16 md:pt-0 mx-auto">
+            <div className="flex flex-col justify-center pt-16 md:pt-0 mx-auto md:mx-0">
               <div style={{ width: 232, height: 69.52 }}>
                 <Image width={232} height={69.52} leyout="fill" objectFit="contain" className="pointer-events-none" src="/img/bullla-white.svg" alt="" />
               </div>
