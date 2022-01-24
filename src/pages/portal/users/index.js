@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { parseCookies } from 'nookies';
 import withAuth from '../../../hof/withAuth';
 import DefaultLayout from '../../../layouts/default';
+import Image from 'next/image';
 
 const Users = () => {
 
@@ -97,8 +98,10 @@ const Users = () => {
 						<tr key={person.id}>
 							<td className="px-6 py-4 whitespace-nowrap">
 								<div className="flex items-center">
-									<div className="flex-shrink-0 h-10 w-10">
-										<img className="h-10 w-10 rounded-full" src={person.image} alt="" />
+									<div className="flex items-center justify-center flex-shrink-0">
+										{person?.image &&
+											<Image width={40} height={40} className="rounded-full object-cover" src={person.image} alt={person?.name} />									
+										}
 									</div>
 									<div className="ml-4">
 										<div className="text-sm font-medium text-gray-900">{person.name}</div>
