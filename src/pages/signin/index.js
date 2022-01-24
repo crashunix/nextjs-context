@@ -49,7 +49,7 @@ export default function Home({ ...props }) {
       <div className="bg-bl-background bg-login-background bg-cover bg-center bg-no-repeat font-asap relative overflow-y-auto">
         <a href="#" className="flex items-center absolute top-4 md:top-10 left-4 md:left-16 text-white space-x-2">
           <Language />
-          <span className="text-medium">SITE INSTITUCIONAL</span>
+          <span className="text-medium font-raleway text-sm">SITE INSTITUCIONAL</span>
         </a>
         <div className="px-4 container mx-auto min-h-screen max-w-5xl md:flex md:flex-col md:justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 h-full py-4 gap-10 md:gap-0">
@@ -114,10 +114,10 @@ export default function Home({ ...props }) {
                             name="remember"
                             control={control}
                             render={({ field }) => (
-                              <FormControlLabel {...field} control={<Checkbox color="primary" />} label={<span className="text-bl-dark-gray font-bold text-sm">Lembrar de mim</span>} />
+                              <FormControlLabel {...field} control={<Checkbox color="primary" />} label={<span className="text-bl-dark-gray font-bold text-sm font-raleway">Lembrar de mim</span>} />
                             )}
                           />
-                          <a href="#" className="text-sm font-bold text-bl-title" onClick={() => setScreen('forgot')}>Esqueceu sua senha?</a>
+                          <a href="#" className="text-sm font-bold text-bl-title font-raleway" onClick={() => setScreen('forgot')}>Esqueceu sua senha?</a>
                         </div>
                       </form>
                     </>
@@ -145,7 +145,7 @@ export default function Home({ ...props }) {
                         </div>
                         <div className="flex items-center justify-center mt-9 space-x-2 cursor-pointer" onClick={() => setScreen('login')}>
                           <ChevronLeft />
-                          <span className="uppercase text-bl-gray text-sm">Voltar ao login</span>
+                          <span className="uppercase text-bl-gray text-sm font-raleway">Voltar ao login</span>
                         </div>
                       </form>
                     </>

@@ -8,7 +8,8 @@ module.exports = {
         'login-background': "url('/img/login-background.png')",
       },
       fontFamily: {
-        'asap': ['Asap', 'sans-serif']
+        'asap': ['Asap', 'sans-serif'],
+        'raleway': ['Raleway', 'sans-serif']
       },
       colors: {
         bl: {
