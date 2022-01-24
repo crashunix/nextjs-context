@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { setCookie, parseCookies } from 'nookies';
 
 import { authService } from '../services/auth.service';
@@ -26,6 +26,8 @@ export const AuthContextProvider = ({ children }) => {
     const isAuthenticated = !!user;
 
     const { addToast } = useContext(ToastContext);
+
+    const router = useRouter();
 
     useEffect(() => {
         const { 'pb.token': token } = parseCookies();
@@ -55,7 +57,7 @@ export const AuthContextProvider = ({ children }) => {
             api.defaults.headers['Authorization'] = `Bearer ${token}`;
             setUser(user);
             setError('');
-            Router.push('/portal');
+            router.push('/portal');
         }).catch(err => {
             addToast('error', 'Erro', "Erro ao logar");
             setError(err.response.data.message);
@@ -72,7 +74,7 @@ export const AuthContextProvider = ({ children }) => {
         setCookie(undefined, 'pb.refresh-token', '', {
             maxAge: -1,
         });
-        Router.push('/signin');
+        router.push('/signin');
     }
 
     const context = { signin, user, isAuthenticated, signout, loading, error }
