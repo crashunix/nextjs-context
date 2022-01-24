@@ -47,13 +47,13 @@ export default function Home({ ...props }) {
         <title>Bem-vindo ao Portal RH</title>
       </Head>
       <div className="bg-bl-background bg-login-background bg-cover bg-center bg-no-repeat font-asap relative">
-        <a href="#" className="flex items-center absolute top-10 left-16 text-white space-x-2">
+        <a href="#" className="flex items-center absolute top-4 md:top-10 left-4 md:left-16 text-white space-x-2">
           <Language />
           <span className="text-medium">SITE INSTITUCIONAL</span>
         </a>
         <div className="px-4 container mx-auto h-screen max-w-5xl">
           <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center pt-16 md:pt-0 mx-auto">
               <div style={{ width: 232, height: 69.52 }}>
                 <Image width={232} height={69.52} leyout="fill" objectFit="contain" className="pointer-events-none" src="/img/bullla-white.svg" alt="" />
               </div>
