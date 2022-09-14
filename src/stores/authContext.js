@@ -57,7 +57,7 @@ export const AuthContextProvider = ({ children }) => {
             api.defaults.headers['Authorization'] = `Bearer ${token}`;
             setUser(user);
             setError('');
-            router.push('/portal');
+            router.push('/');
         }).catch(err => {
             addToast('error', 'Erro', "Erro ao logar");
             setError(err.response.data.message);

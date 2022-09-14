@@ -12,7 +12,7 @@ module.exports = {
         'raleway': ['Raleway', 'sans-serif']
       },
       colors: {
-        bl: {
+        zoras: {
           'dark-blue': '#00315F',
           'light-blue': '#009CD0',
           'background': '#27B3E3',

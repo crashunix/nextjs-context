@@ -6,8 +6,6 @@ import { NavBarContextProvider } from '../stores/navbarContext';
 import { ThemeContextProvider } from '../stores/themeContext'
 import { ToastContextProvider } from '../stores/toastContext';
 import '../styles/globals.css'
-import { theme } from "../helpers/theme";
-import { ThemeProvider } from "@material-ui/core";
 
 function MyApp({ Component, pageProps }) {
 
@@ -18,11 +16,9 @@ function MyApp({ Component, pageProps }) {
         <NavBarContextProvider>
           <AuthContextProvider>
             <ThemeContextProvider>
-              <ThemeProvider theme={theme}>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </ThemeProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
             </ThemeContextProvider>
           </AuthContextProvider>
         </NavBarContextProvider>
