@@ -50,7 +50,7 @@ export default function Home({ ...props }) {
             <h2 className="text-zoras-title font-bold text-3xl leading-none">Seja bem-vindo<br />ao Zoras</h2>
             <p className="text-zoras-dark-gray font-medium mt-3">Não tem acesso? <a href="#" className="font-normal underline">Fale com o Bullla</a></p>
             <form className="mt-10" onSubmit={handleSubmit(onSubmitLogin)}>
-              <Controller
+              {/* <Controller
                 name="email"
                 control={control}
                 rules={{ required: true, minLength: 3 }}
@@ -61,9 +61,9 @@ export default function Home({ ...props }) {
                         errors.email?.type == 'pattern' && <HelperText icon={<AlertIcon />} text="E-mail inválido" />
                   } label="E-mail" variant="standard" className="w-full" {...field} />
                 )}
-              />
+              /> */}
               <div className="mt-8">
-                <Controller
+                {/* <Controller
                   name="password"
                   control={control}
                   rules={{ required: true }}
@@ -87,20 +87,20 @@ export default function Home({ ...props }) {
                         )
                       }} />
                   )}
-                />
+                /> */}
               </div>
               {error && <div className="mt-8"><HelperText icon={<AlertIcon />} text={error} /></div>}
               <div className="mt-8">
-                <Button disabled={!!errors.email || !!errors.password} variant="contained" color="primary" size="large" style={{ fontWeight: 'bold' }} type="submit" className="w-full">Fazer Login</Button>
+                {/* <Button disabled={!!errors.email || !!errors.password} variant="contained" color="primary" size="large" style={{ fontWeight: 'bold' }} type="submit" className="w-full">Fazer Login</Button> */}
               </div>
               <div className="flex items-center justify-between mt-9">
-                <Controller
+                {/* <Controller
                   name="remember"
                   control={control}
                   render={({ field }) => (
                     <FormControlLabel {...field} control={<Checkbox color="primary" />} label={<span className="text-zoras-dark-gray font-bold text-sm font-raleway">Lembrar de mim</span>} />
                   )}
-                />
+                /> */}
                 <a href="#" className="text-sm font-bold text-zoras-title font-raleway" onClick={() => setScreen('forgot')}>Esqueceu sua senha?</a>
               </div>
             </form>
@@ -111,7 +111,7 @@ export default function Home({ ...props }) {
             <p className="mt-3 text-zoras-dark-gray">Insira seu e-mail associado à conta e enviaremos um link para você alterar sua senha</p>
             <p className="text-zoras-dark-gray font-medium mt-6">Não tem acesso? <a href="#" className="font-normal underline">Fale com o Bullla</a></p>
             <form className="mt-10" onSubmit={handleSubmit(onSubmitRemember)}>
-              <Controller
+              {/* <Controller
                 name="email"
                 control={control}
                 rules={{ required: true, minLength: 3 }}
@@ -122,10 +122,10 @@ export default function Home({ ...props }) {
                         errors.email?.type == 'pattern' && <HelperText icon={<AlertIcon />} text="E-mail inválido" />
                   } label="E-mail" variant="standard" className="w-full" {...field} />
                 )}
-              />
+              /> */}
               {error && <div className="mt-8"><HelperText icon={<AlertIcon />} text={error} /></div>}
               <div className="mt-8">
-                <Button disabled={!!errors.email || !!errors.password} variant="contained" color="primary" size="large" style={{ fontWeight: 'bold' }} type="submit" className="w-full">Enviar</Button>
+                {/* <Button disabled={!!errors.email || !!errors.password} variant="contained" color="primary" size="large" style={{ fontWeight: 'bold' }} type="submit" className="w-full">Enviar</Button> */}
               </div>
               <div className="flex items-center justify-center mt-9 space-x-2 cursor-pointer" onClick={() => setScreen('login')}>
                 <ChevronLeft />
