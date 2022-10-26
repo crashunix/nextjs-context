@@ -1,7 +1,7 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['github.com', 'images.unsplash.com', 'picsum.photos'],
+    domains: ['github.com', 'images.unsplash.com', 'picsum.photos', 'avatars.githubusercontent.com'],
     formats: ['image/avif', 'image/webp'],
   },
   webpack(config) {

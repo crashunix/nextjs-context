@@ -4,36 +4,139 @@ import AuthContext from "../../stores/authContext";
 import ThemeContext from "../../stores/themeContext";
 import ToastContext from "../../stores/toastContext";
 
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { parseCookies } from "nookies";
+import { Controller, useForm } from "react-hook-form";
+
 const Signup = () => {
 
     const { theme } = useContext(ThemeContext);
-    const { signup, isLoading } = useContext(AuthContext);
 
-    const [ username, setUsername ] = useState("");
-    const [ password, setPassword ] = useState("");
+    const validationSchema = Yup.object().shape({
+        username: Yup.string()
+            .required('Nome de usuário é obrigatório')
+            .default("")
+            .min(3, "O nome de usuário deve conter pelo menos 3 caracteres")
+            .max(30, "O nome de usuário deve conter no máximo 30 caracteres"),
+        name: Yup.string().required('Nome é obrigatório').default(""),
+        email: Yup.string()
+            .required('E-mail é obrigatório').default(""),
+        emailRepeat: Yup.string()
+            .required('A confirmação de e-mail é obrigatória')
+            .oneOf([Yup.ref('email')], 'Os endereços de e-mail não coincidem').default(""),
+        password: Yup.string()
+            .required('A senha obrigatória')
+            .min(8, 'A senha deve ter no mínimo 8 caracteres').max(20, 'A senha deve conter no máximo 20 caracteres').default(""),
+        passwordRepeat: Yup.string()
+            .required('A confirmação de senha é obrigatória')
+            .oneOf([Yup.ref('password')], 'As senhas não coincidem').default(""),
+        // avatar: Yup.bool()
+        //     .oneOf([true], "Aceite obrigatório").default(false)
+    });
 
-    const { addToast } = useContext(ToastContext);
+    const formOptions = { resolver: yupResolver(validationSchema) };
+
+    const { register, handleSubmit, control, formState: { errors } } = useForm(formOptions);
+
+    const { signup, loading } = useContext(AuthContext);
+
+    const [field, setField] = useState(''); // Apenas para o input de senha funcionar corretamente
+
+    const onSubmitSignup = ({ username, name, email, password }) => {
+        signup({ username, name, email, password });
+    }
 
     return (
-        <div className={ theme }>
-            <div className="w-screen h-screen bg-gray-100 dark:bg-gray-800 flex items-center justify-center transition-colors">
-                <div className="bg-white shadow-md rounded-md p-5 dark:bg-gray-900 transition-colors">
-                    <div className="flex items-center justify-between">
-                        <span className="font-bold text-lg dark:text-white">Signup</span>
-                        <ThemeButton />
-                    </div>
-                    <div className="grid grid-cols-1 gap-2 pt-10 w-64">
-                        <input type="text" className="py-1 px-2 h-10 bg-gray-100 rounded-sm dark:bg-gray-800 dark:text-white" placeholder="E-mail" value={ username } onChange={ (e) => setUsername(e.target.value) } />
-                        <input type="password" className="py-1 px-2 h-10 bg-gray-100 rounded-sm dark:bg-gray-800 dark:text-white" placeholder="Password" value={ password } onChange={ (e) => setPassword(e.target.value) } />
-                        {/* <div className="flex items-center justify-center cursor-pointer py-4 dark:text-white" onClick={ () => addToast('info', 'Em construção', 'Estamos trabalhando nessa funcionalidade.') }>
-                            Esqueci minha senha 🥴
-                        </div> */}
-                        <button className="bg-blue-400 h-10 w-full rounded-sm text-white font-bold" onClick={ () => signup({ username: username, password: password }) }>{ isLoading ? '🤚' : 'Signup' }</button>
-                    </div>
-                </div>
+        <div className={theme}>
+            <div className="w-screen h-screen bg-gray-100 dark:bg-gray-800 transition-colors">
+                <h1 className="text-gray-700">Cadastro</h1>
+                <form className="flex flex-col" onSubmit={handleSubmit(onSubmitSignup)}>
+
+                    <Controller
+                        name="username"
+                        value={field ? field : ''}
+                        control={control}
+                        render={({ field }) => (
+                            <input name="username" className="text-lg" type="text" placeholder="Nome de usuário" {...field} />
+                        )}
+                    />
+
+                    {errors.username?.message}
+
+                    <Controller
+                        name="name"
+                        control={control}
+                        render={({ field }) => (
+                            <input name="name" className="text-lg" type="text" placeholder="Nome" {...field} />
+                        )}
+                    />
+
+                    {errors.name?.message}
+
+                    <Controller
+                        name="email"
+                        control={control}
+                        render={({ field }) => (
+                            <input name="email" className="text-lg" type="text" placeholder="E-mail" {...field} />
+                        )}
+                    />
+
+                    {errors.email?.message}
+
+                    <Controller
+                        name="emailRepeat"
+                        control={control}
+                        render={({ field }) => (
+                            <input name="emailRepeat" className="text-lg" type="text" placeholder="Confirme seu e-mail" {...field} />
+                        )}
+                    />
+
+                    {errors.emailRepeat?.message}
+
+                    <Controller
+                        name="password"
+                        control={control}
+                        render={({ field }) => (
+                            <input name="password" className="text-lg" type="password" placeholder="Senha" {...field} />
+                        )}
+                    />
+
+                    {errors.password?.message}
+
+                    <Controller
+                        name="passwordRepeat"
+                        control={control}
+                        render={({ field }) => (
+                            <input name="passwordRepeat" className="text-lg" type="password" placeholder="Confirme sua senha" {...field} />
+                        )}
+                    />
+
+                    {errors.passwordRepeat?.message}
+
+                    <button className="rounded-lg p-4" type="submit">Prosseguir</button>
+
+                </form>
             </div>
         </div>
     );
+}
+
+export const getServerSideProps = async (ctx) => {
+    // const apiClient = getApiClient(ctx);
+    const { ['inari.token']: token } = parseCookies(ctx);
+    if (token && !isTokenExpired(token)) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
+        }
+    }
+    return {
+        props: {
+        }
+    }
 }
 
 export default Signup;

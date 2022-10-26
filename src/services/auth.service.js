@@ -4,9 +4,13 @@ import { api } from "./api";
 
 const baseUrl = `/auth`;
 
-const signin = ({ email, password }) => {
+const signin = ({ username, password }) => {
     console.log('signin');
-    return api.post(`${baseUrl}/signin`, { email, password });
+    return api.post(`${baseUrl}/signin`, { username, password });
+}
+
+const signup = async ({ username, name, email, password }) => {
+    return await api.post(`/users`, { username, name, email, password });
 }
 
 const refreshToken = (refreshToken) => {
@@ -24,6 +28,7 @@ const create = (credentials) => {
 
 export const authService = {
     signin,
+    signup,
     me,
     create,
     refreshToken

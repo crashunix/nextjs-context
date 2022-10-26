@@ -5,7 +5,7 @@ import Link from 'next/link';
 import dateDiff from '../../helpers/dateDiff';
 import Image from 'next/image';
 
-const Posts = ({ ...props }) => {
+const Post = ({ ...props }) => {
 
   return (
     <>
@@ -14,7 +14,7 @@ const Posts = ({ ...props }) => {
       </Head>
       {/* <h1 className="text-xl font-bold">{props.post.title}</h1> */}
       <div className="flex flex-col space-y-1">
-        <Image fill className="rounded-lg" width={1080} height={500} src="https://picsum.photos/1080/500" />
+        <Image fill="true" className="rounded-lg" width={1080} height={500} src="https://picsum.photos/1080/500" />
         <h4 className="font-bold text-gray-900 text-lg leading-5">{props.post.title}</h4>
         <div className="flex items-center space-x-2">
           <Link href="/">
@@ -45,6 +45,6 @@ export const getServerSideProps = async (ctx) => {
   }
 }
 
-Posts.layout = DefaultLayout;
+Post.layout = DefaultLayout;
 
-export default Posts;
+export default Post;

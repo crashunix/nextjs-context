@@ -2,6 +2,7 @@ import withAuth from "../hof/withAuth";
 import { getApiClient } from "../services/axios";
 
 import { FiSearch } from "react-icons/fi";
+import { HiOutlineAdjustments } from "react-icons/hi";
 import DefaultLayout from "../layouts/default";
 import HomeSection from "../components/home-section";
 import PostCard from "../components/post-card";
@@ -10,9 +11,15 @@ import Link from "next/link";
 const Home = ({ ...props }) => {
     return <>
         
-            <a className="flex flex-col space-y-10">
-                <div className="flex p-3 rounded-md bg-gray-100 items-center space-x-2">
-                    <FiSearch className="text-xl" />
+            <div className="flex flex-col space-y-10">
+                <div className="flex items-center space-x-4">
+                    <div className="relative flex items-center flex-1">
+                        <input type="text" className="bg-none outline-none border-none text-sm bg-white h-12 px-3 pr-9 w-full rounded-lg"/>
+                        <FiSearch className="text-xl absolute right-3" />
+                    </div>
+                    <button onClick={() => {console.log('filter');}} className="h-12 w-12 bg-white flex items-center justify-center rounded-lg">
+                        <HiOutlineAdjustments />
+                    </button>
                 </div>
                 <div className="flex flex-col space-y-10">
                     <HomeSection title="Latest news">
@@ -25,7 +32,7 @@ const Home = ({ ...props }) => {
                         </div>
                     </HomeSection>
                 </div>
-            </a>
+            </div>
     </>
 }
 

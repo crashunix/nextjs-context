@@ -11,9 +11,9 @@ const AuthContext = createContext({
     user: null,
     isAuthenticated: false,
     signin: ({ email, password}) => {},
+    signin: ({ username, name, email, password }) => {},
     signout: () => {},
     loading: false,
-    error: ''
 });
 
 export const AuthContextProvider = ({ children }) => {
@@ -21,7 +21,6 @@ export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState();
 
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
 
     const isAuthenticated = !!user;
 
@@ -30,7 +29,7 @@ export const AuthContextProvider = ({ children }) => {
     const router = useRouter();
 
     useEffect(() => {
-        const { 'pb.token': token } = parseCookies();
+        const { 'inari.token': token } = parseCookies();
         if(token) {
             authService.me().then((res) => {
                 console.log();
@@ -41,26 +40,40 @@ export const AuthContextProvider = ({ children }) => {
         }
     }, []);
 
-    const signin = async ({ email, password }) => {
+    const signin = async ({ username, password }) => {
         setLoading(true);
-        await authService.signin({ email, password }).then((res) => {
+        await authService.signin({ username, password }).then((res) => {
             const { token, user, refreshToken } = res.data;
             console.log("context login", user, token);
-            setCookie(undefined, 'pb.token', token, {
+            setCookie(undefined, 'inari.token', token, {
                 maxAge: 30 * 24 * 60 * 60, // 30 dias
                 path: '/'
             });
-            setCookie(undefined, 'pb.refresh-token', refreshToken.id, {
+            setCookie(undefined, 'inari.refresh-token', refreshToken.id, {
                 maxAge: 30 * 24 * 60 * 60, // 30 dias
                 path: '/'
             });
             api.defaults.headers['Authorization'] = `Bearer ${token}`;
             setUser(user);
-            setError('');
             router.push('/');
         }).catch(err => {
-            addToast('error', 'Erro', "Erro ao logar");
-            setError(err.response.data.message);
+            addToast('error', 'Erro', err.response.data.message);
+        }).finally(() => {
+            setLoading(false);
+        });
+    }
+
+    const signup = ({ username, name, email, password }) => {
+        setLoading(true);
+        authService.signup({ username, name, email, password }).then(res => {
+            signin({ username, password });
+        }).catch(err => {
+            if(err.response && err.response.data) {
+                // console.log(err.response);
+                addToast('error', 'Erro', err.response.data.message);
+            } else {
+                addToast('error', 'Erro', "");
+            }
         }).finally(() => {
             setLoading(false);
         });
@@ -68,16 +81,16 @@ export const AuthContextProvider = ({ children }) => {
 
     const signout = () => {
         setUser(null);
-        setCookie(undefined, 'pb.token', '', {
+        setCookie(undefined, 'inari.token', '', {
             maxAge: -1,
         });
-        setCookie(undefined, 'pb.refresh-token', '', {
+        setCookie(undefined, 'inari.refresh-token', '', {
             maxAge: -1,
         });
         router.push('/signin');
     }
 
-    const context = { signin, user, isAuthenticated, signout, loading, error }
+    const context = { signin, signup, user, isAuthenticated, signout, loading }
 
     return (
         <AuthContext.Provider value={context}>

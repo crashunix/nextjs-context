@@ -2,7 +2,7 @@ import axios from "axios";
 import { parseCookies } from "nookies";
 
 export function getApiClient(ctx = undefined) {
-    const { 'pb.token': token } = parseCookies(ctx);
+    const { 'inari.token': token } = parseCookies(ctx);
 
     const api = axios.create({
         baseURL: 'http://localhost:4000',
